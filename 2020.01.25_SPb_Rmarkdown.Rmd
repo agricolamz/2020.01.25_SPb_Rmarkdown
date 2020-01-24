@@ -1,12 +1,12 @@
 ---
 title: "Advanced Rmarkdown"
 author: "Г. Мороз"
-institute: "Linguistic Convergence Laboratory, NRU HSE"
+institute: "Международная лаборатория языковой конвергенции, НИУ ВШЭ"
 date: |
     | 25 января 2020, TCTS GRАДSCHOOL
     |
     |
-    | ![](images/00_qrcode.png)'
+    | ![](images/01_qrcode.png)'
 output: 
   beamer_presentation:
     df_print: kable
@@ -14,6 +14,7 @@ output:
     citation_package: natbib
     includes:
       in_header: "config/presento.sty"
+classoption: t
 bibliography: bibliography.bib
 biblio-style: "apalike"
 editor_options: 
@@ -22,17 +23,94 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, dev='cairo_pdf')
+library(qrcode)
+png(filename="images/01_qrcode.png", width = 200, height = 200)
+qrcode_gen("https://github.com/agricolamz/2020.01.25_SPb_Rmarkdown/raw/master/2020.01.25_SPb_Rmarkdown.pdf")
+dev.off()
 ```
 
-# \color{colorwhite} Введение
+# За что мы любим `rmarkdown`?
 
-## За что мы любим `rmarkdown`?
+**[@rmarkdown18; @rmarkdown19]**
 
->- In variationism (e.g. [@labov63] on Martha's Vineyard /ai/ ~ /au/, [@trudgill74] on Norwich speech, [@wolfram69] on Afro-American speech from Detroit) researchers get mad about social stratification, mostly urban.
+\pause
 
+>- многоформатность (`.md`, `.pdf`, `.docx`, `.pptx`, `.epub`...)
+>- кастомизируемость
+>- не надо сохранять и вставлять графики и таблицы (почти)
+>- воспроизоводимость (если обнародаваны данные и код)
+>- data-driven документ (+ многоразовое использование)
+>- простой синтаксис расширяет инклюзивность в совместной работе
+>- множество расширений \pause
 
->- "Two equally interesting questions are at the heart of this book: how an extraordinary degree of idiosyncratic linguistic variation can coexist with an extraordinarily homogeneous speaker population, and how linguists might overlook the possibility of their coexistence." [@dorian10: 3]
+\begin{tiny}
 
->- In this talk we explore variation in a small, homogeneous speaker population and the probability that an average researcher of Nakh-Daghestanian languages catches this variation.
+\setstretch{1}
+
+adapr, addinslist, addinsOutline, ANOVAIREVA, ANOVAShiny, apa, ari, ASSOCShiny, attachment, bdclean, BETS, binb, biocompute, blandr, blastula, blkbox, \alert{blogdown}, BLRShiny, \alert{bookdown}, BrailleR, bsplus, caRpools, cartools, CLUSTShiny, CMShiny, \alert{codebook}, compareGroups, condformat, corporaexplorer, corto, CTShiny, DataExplorer, dataMaid, DataPackageR, DEploid, discoveR, distill, DLMtool, dlookr, dmdScheme, effectR, EML, enviGCMS, EpiReport, EpiSignalDetection, eseis, explore, ezpickr, FactoInvestigate, fastqcr, \alert{flexdashboard}, flextable, flying, formattable, genBart, genogeographer, ggPMX, gistr, Gmisc, GOFShiny, govdown, GWASinspector, helminthR, hoardeR, hrbrthemes, igate, inlmisc, kableExtra, knitrBootstrap, KNNShiny, komaletter, lazyrmd, \alert{learnr}, lessR, liftr, linl, litteR, MDSPCAShiny, memor, MendelianRandomization, MetaIntegrator, metamicrobiomeR, MLDAShiny, MNLR, monographaR, MSEtool, NACHO, NBShiny, NBShiny2, ncappc, NDP, NormalizeMets, orloca, packagedocs, \alert{pagedown}, pathfindR, phonfieldwork, pinp, \alert{pkgdown}, pkgnet, pmd, \alert{posterdown}, PreKnitPostHTMLRender, PREPShiny, prereg, prettydoc, PROBShiny, prodigenr, PTXQC, qqplotr, radiant.data, radix, randomForestExplainer, rchallenge, rdtLite, RepoGenerator, reprex, resumer, revealjs, RInno, RLumShiny, rmake, rmdfiltr, rmdformats, rmdplugr, rmdshower, RPyGeo, rrtable, \alert{rticles}, RtutoR, safetyGraphics, sdcMicro, SHELF, ShinyItemAnalysis, shinyloadtest, SmartEDA, spANOVA, SpatialEpiApp, STAT, statcheck, stationery, statsr, statVisual, swirlify, \alert{timevis}, tint, trackr, \alert{tufte}, ubiquity, uiucthemes, \alert{vitae}, VTShiny, wallace, webex, workflowr, \alert{xaringan}, ymlthis 
+
+\end{tiny}
+
+# Мы обсудим:
+
+- многоформатность (`.md`, `.html`, `.pdf`, `.docx`/`.pptx`, ... `bookdown::epub_book()`)
+- кастомизируемость
+- data-driven документ (+ многоразовое использование)
+- множество расширений
+
+Я предполагаю, что вы:
+
+- знаете основы R
+- знаете основы `rmarkdown` (текст, чанки, разные языки программирования, [дихотомия Pets or livestock](http://www.masalmon.eu/2017/08/08/chunkpets/), аргументы чанков, например, `cache` и т. п.)
+- умеете работать с файлами `.bib`
+
+# Многоформатность
+
+Создайте новый `.Rmd` файл:
+```
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+## TCTS
+```
+
+И скомпилируйте его командой
+
+```
+rmarkdown::render("materials/test.Rmd", output_format = "all")
+```
+
+```{bash, echo = FALSE}
+tree materials
+```
+
+# Кастомизируемость
+
+Добавьте в созданный документ следующий фрагмент:
+
+```
+<details>
+скрытый фрагмент
+</details>
+
+\LaTeX
+```
+
+и скомпелируйте командой
+
+```
+rmarkdown::render("materials/test.Rmd", output_format = "all")
+```
+
+# Многоразовое использование
+
+# Множество расширений: `bookdown`
+
+# Множество расширений: `rticles`
+
+# Множество расширений: `papaja`
 
 # Ссылки {.allowframebreaks}
