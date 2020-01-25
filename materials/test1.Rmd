@@ -1,0 +1,7 @@
+---
+params:
+  data: data
+  column: 1
+---
+
+# `r names(params$data[params$column])`

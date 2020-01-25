@@ -22,7 +22,7 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, dev='cairo_pdf')
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, dev='cairo_pdf', comment=NA)
 library(qrcode)
 png(filename="images/01_qrcode.png", width = 200, height = 200)
 qrcode_gen("https://github.com/agricolamz/2020.01.25_SPb_Rmarkdown/raw/master/2020.01.25_SPb_Rmarkdown.pdf")
@@ -67,14 +67,8 @@ adapr, addinslist, addinsOutline, ANOVAIREVA, ANOVAShiny, apa, ari, ASSOCShiny, 
 # Многоформатность
 
 Создайте новый `.Rmd` файл:
-```
----
-output:
-  html_document: default
-  pdf_document: default
----
-
-## TCTS
+```{r}
+cat(readLines("materials/test.Rmd"), sep = "\n")
 ```
 
 И скомпилируйте его командой
@@ -107,10 +101,31 @@ rmarkdown::render("materials/test.Rmd", output_format = "all")
 
 # Многоразовое использование
 
-# Множество расширений: `bookdown`
+Создайте файл `.Rmd`:
 
-# Множество расширений: `rticles`
+```{r, echo=FALSE}
+cat(readLines("materials/test1.Rmd"), sep = "\n")
+```
 
-# Множество расширений: `papaja`
+Скомпилируйте файл следующей командой:
+
+```
+rmarkdown::render("materials/test1.Rmd", 
+                  params = list(data = mtcars, column = 2))
+```
+
+# Множество расширений: `bookdown` [@bookdown16]
+
+[Книга-инструкция](https://bookdown.org/yihui/bookdown/)
+
+[Список книг сделанных с `bookdown`.](https://bookdown.org/)
+
+# Множество расширений: `rticles` [@rticles19]
+
+[Инструкция и список журналов](https://github.com/rstudio/rticles)
+  
+# Множество расширений: `papaja` [@papaja18]
+
+[Инструкция](https://crsh.github.io/papaja_man/)
 
 # Ссылки {.allowframebreaks}
